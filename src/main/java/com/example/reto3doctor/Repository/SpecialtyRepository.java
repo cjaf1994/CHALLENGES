@@ -25,7 +25,7 @@ public class SpecialtyRepository {
         return specialtyCrudRepository.save(specialtyModel);
     }
 
-    public SpecialtyModel updateSpecialty (SpecialtyModel specialtyModel){
+    public SpecialtyModel updateSpecialty(SpecialtyModel specialtyModel){
         return specialtyCrudRepository.save(specialtyModel);
     }
 

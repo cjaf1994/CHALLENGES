@@ -24,15 +24,51 @@ public class AdminService {
         return adminRepository.getAdmin(id);
     }
 
+
     public AdminModel saveAdmin(AdminModel adminModel){
-        return adminRepository.saveAdmin(adminModel);
+        if(adminModel.getId()==null){
+            return adminRepository.saveAdmin(adminModel);
+        }else{
+            Optional<AdminModel> optionalAdminModel= adminRepository.getAdmin(adminModel.getId());
+            if(optionalAdminModel.isEmpty()){
+                return adminRepository.saveAdmin(adminModel);
+            }else {
+                return adminModel;
+            }
+        }
     }
 
-    public AdminModel updateAdmin(AdminModel adminModel){
-        return adminRepository.updateAdmin(adminModel);
+    public AdminModel updateAdmin(AdminModel adminModel) {
+        if (adminModel.getId() != null) {
+            Optional<AdminModel> optionalAdminModel =
+                    adminRepository.getAdmin((adminModel.getId()));
+            if (!optionalAdminModel.isEmpty()) {
+                if (adminModel.getName() != null) {
+                    optionalAdminModel.get().setName(adminModel.getName());
+                }
+                if (adminModel.getEmail() != null) {
+                    optionalAdminModel.get().setEmail(adminModel.getEmail());
+                }
+                if (adminModel.getPassword() != null) {
+                    optionalAdminModel.get().setPassword(adminModel.getPassword());
+                }
+                adminRepository.saveAdmin(optionalAdminModel.get());
+                return optionalAdminModel.get();
+
+            } else {
+                return adminModel;
+            }
+
+        }return adminModel;
     }
+
 
     public boolean deleteAdmin(Integer id) {
-        adminRepository.deleteAdmin(id);
-        return true;}
+            Boolean aBoolean=getAdmin(id).map(adminModel1 -> {
+                adminRepository.deleteAdmin(adminModel1.getId());
+                return true;
+            }).orElse(false);
+            return aBoolean;
+        }
+
 }

@@ -22,7 +22,7 @@ public class ReservationModel {
     private Integer idReservation;
     private LocalDate startDate;
     private LocalDate devolutionDate;
-    private boolean status;
+    private String status= "created";
     @ManyToOne()
     @JoinColumn(name = "id_doctor")
     @JsonIgnoreProperties("reservations")

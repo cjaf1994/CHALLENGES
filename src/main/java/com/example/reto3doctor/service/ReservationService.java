@@ -26,17 +26,55 @@ public class ReservationService {
         return reservationRepository.getReservation(id);
     }
 
+
     public ReservationModel saveReservation(ReservationModel reservationModel){
-        return reservationRepository.saveReservation(reservationModel);
+        if(reservationModel.getIdReservation()==null){
+            return reservationRepository.saveReservation(reservationModel);
+        }else{
+            Optional<ReservationModel> optionalReservationModel= reservationRepository.getReservation(reservationModel.getIdReservation());
+            if(optionalReservationModel.isEmpty()){
+                return reservationRepository.saveReservation(reservationModel);
+            }else {
+                return reservationModel;
+            }
+
+        }
+
     }
 
-    public ReservationModel updateReservation(ReservationModel reservationModel){
-        return reservationRepository.updateReservation(reservationModel);
+    public ReservationModel updateReservation(ReservationModel reservationModel) {
+        if (reservationModel.getIdReservation() != null) {
+            Optional<ReservationModel> optionalReservationModel =reservationRepository.getReservation((reservationModel.getIdReservation()));
+            if (!optionalReservationModel.isEmpty()) {
+                if (reservationModel.getStartDate() != null){
+                    optionalReservationModel.get().setStartDate(reservationModel.getStartDate());
+                    optionalReservationModel.get().setDoctor(reservationModel.getDoctor());
+                    optionalReservationModel.get().setClient(reservationModel.getClient());
+                    optionalReservationModel.get().setScore(reservationModel.getScore());
+                }
+                if (reservationModel.getDevolutionDate() != null) {
+                    optionalReservationModel.get().setDevolutionDate(reservationModel.getDevolutionDate());
+                }
+
+                //boolean
+                if (reservationModel.getStatus () != null) {
+                    optionalReservationModel.get().setStatus(reservationModel.getStatus());
+                }
+                reservationRepository.saveReservation(optionalReservationModel.get());
+                return optionalReservationModel.get();
+            } else {
+                return reservationModel;
+            }
+        }return reservationModel;
     }
 
     public boolean deleteReservation(Integer id) {
-        reservationRepository.deleteReservation(id);
-        return true;}
+        Boolean aBoolean=getReservation(id).map(reservationModel1 -> {
+            reservationRepository.deleteReservation(reservationModel1.getIdReservation());
+            return true;
+        }).orElse(false);
+        return aBoolean;
+    }
 
 
 }

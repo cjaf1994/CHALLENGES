@@ -26,15 +26,45 @@ public class MessageService {
         return messageRepository.getMessage(id);
     }
 
+
     public MessageModel saveMessage(MessageModel messageModel){
-        return messageRepository.saveMessage(messageModel);
+        if(messageModel.getIdMessage()==null){
+            return messageRepository.saveMessage(messageModel);
+        }else{
+            Optional<MessageModel> optionalMessageModel= messageRepository.getMessage(messageModel.getIdMessage());
+            if(optionalMessageModel.isEmpty()){
+                return messageRepository.saveMessage(messageModel);
+            }else {
+                return messageModel;
+            }
+
+        }
+
     }
 
-    public MessageModel updateMessage(MessageModel messageModel){
-        return messageRepository.updateMessage(messageModel);
+    public MessageModel updateMessage(MessageModel messageModel) {
+        if (messageModel.getIdMessage() != null) {
+            Optional<MessageModel> optionalMessageModel =messageRepository.getMessage((messageModel.getIdMessage()));
+            if (!optionalMessageModel.isEmpty()) {
+                if (messageModel.getMessageText() != null){
+                    optionalMessageModel.get().setMessageText(messageModel.getMessageText());
+                    optionalMessageModel.get().setDoctor(messageModel.getDoctor());
+                    optionalMessageModel.get().setClient(messageModel.getClient());
+                }
+                messageRepository.saveMessage(optionalMessageModel.get());
+                return optionalMessageModel.get();
+            } else {
+                return messageModel;
+            }
+        }return messageModel;
     }
+
     public boolean deleteMessage(Integer id) {
-        messageRepository.deleteMessage(id);
-        return true;}
+        Boolean aBoolean=getMessage(id).map(messageModel1 -> {
+            messageRepository.deleteMessage(messageModel1.getIdMessage());
+            return true;
+        }).orElse(false);
+        return aBoolean;
+    }
 
 }
