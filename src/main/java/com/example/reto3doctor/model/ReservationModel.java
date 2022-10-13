@@ -21,8 +21,8 @@ public class ReservationModel {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer idReservation;
-    private Date startDate;
-    private Date devolutionDate;
+    private LocalDate startDate;
+    private LocalDate devolutionDate;
     private String status= "created";
     @ManyToOne()
     @JoinColumn(name = "id_doctor")
