@@ -8,6 +8,7 @@ import lombok.Setter;
 
 import javax.persistence.*;
 import java.time.LocalDate;
+import java.util.Date;
 import java.util.List;
 
 @Entity
@@ -20,8 +21,8 @@ public class ReservationModel {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer idReservation;
-    private LocalDate startDate;
-    private LocalDate devolutionDate;
+    private Date startDate;
+    private Date devolutionDate;
     private String status= "created";
     @ManyToOne()
     @JoinColumn(name = "id_doctor")
