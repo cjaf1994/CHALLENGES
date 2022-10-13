@@ -6,6 +6,7 @@ import com.example.reto3doctor.model.ScoreModel;
 import com.example.reto3doctor.service.ReservationService;
 import com.example.reto3doctor.service.ScoreService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -29,15 +30,18 @@ public class ScoreController {
         return scoreService.getScore(id);
     }
     @PostMapping("/save")
+    @ResponseStatus(HttpStatus.CREATED)
     public ScoreModel saveScore(@RequestBody ScoreModel scoreModel){
         return scoreService.saveScore(scoreModel);
     }
 
     @PutMapping("/update")
+    @ResponseStatus(HttpStatus.CREATED)
     public ScoreModel updateScore(@RequestBody ScoreModel scoreModel){
         return scoreService.updateScore(scoreModel);
     }
-    @DeleteMapping("/delete/{id}")
+    @DeleteMapping("/{id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
     public boolean deleteScore(@PathVariable Integer id){
         return  scoreService.deleteScore(id);
     }

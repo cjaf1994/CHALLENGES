@@ -5,6 +5,7 @@ import com.example.reto3doctor.model.SpecialtyModel;
 import com.example.reto3doctor.service.MessageService;
 import com.example.reto3doctor.service.SpecialtyService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -22,23 +23,26 @@ public class MessageController {
         return messageService.getAllMessages();
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("/{idMessage}")
     public Optional<MessageModel> getMessage(@PathVariable("id") Integer id){
         return messageService.getMessage(id);
     }
     @PostMapping("/save")
+    @ResponseStatus(HttpStatus.CREATED)
     public MessageModel saveMessage(@RequestBody MessageModel messageModel){
         return messageService.saveMessage(messageModel);
     }
 
     @PutMapping("/update")
+    @ResponseStatus(HttpStatus.CREATED)
     public MessageModel updateMessage(@RequestBody MessageModel messageModel){
         return messageService.updateMessage(messageModel);
     }
 
-    @DeleteMapping("/delete/{id}")
-    public boolean deleteMessage(@PathVariable Integer id){
-        return  messageService.deleteMessage(id);
+    @DeleteMapping("/{idMessage}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public boolean deleteMessage(@PathVariable Integer idMessage){
+        return  messageService.deleteMessage(idMessage);
     }
 
 }

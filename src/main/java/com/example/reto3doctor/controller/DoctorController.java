@@ -5,6 +5,7 @@ import com.example.reto3doctor.model.DoctorModel;
 import com.example.reto3doctor.service.ClientService;
 import com.example.reto3doctor.service.DoctorService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -28,16 +29,19 @@ public class DoctorController {
         return doctorService.getDoctor(id);
     }
     @PostMapping("/save")
+    @ResponseStatus(HttpStatus.CREATED)
     public DoctorModel saveDoctor(@RequestBody DoctorModel doctorModel){
         return doctorService.saveDoctor(doctorModel);
     }
 
     @PutMapping("/update")
+    @ResponseStatus(HttpStatus.CREATED)
     public DoctorModel updateDoctor(@RequestBody DoctorModel doctorModel){
         return doctorService.updateDoctor(doctorModel);
     }
 
-    @DeleteMapping("/delete/{id}")
+    @DeleteMapping("/{id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
     public boolean deleteDoctor(@PathVariable Integer id){
         return  doctorService.deleteDoctor(id);
     }

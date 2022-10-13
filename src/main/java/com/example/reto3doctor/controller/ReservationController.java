@@ -5,6 +5,7 @@ import com.example.reto3doctor.model.SpecialtyModel;
 import com.example.reto3doctor.service.ReservationService;
 import com.example.reto3doctor.service.SpecialtyService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -28,18 +29,21 @@ public class ReservationController {
         return reservationService.getReservation(id);
     }
     @PostMapping("/save")
+    @ResponseStatus(HttpStatus.CREATED)
     public ReservationModel saveReservation(@RequestBody ReservationModel reservationModel){
         return reservationService.saveReservation(reservationModel);
     }
 
     @PutMapping("/update")
+    @ResponseStatus(HttpStatus.CREATED)
     public ReservationModel updateReservation(@RequestBody ReservationModel reservationModel){
         return reservationService.updateReservation(reservationModel);
     }
 
-    @DeleteMapping("/delete/{id}")
-    public boolean deleteReservation(@PathVariable Integer id){
-        return  reservationService.deleteReservation(id);
+    @DeleteMapping("/{idReservation}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public boolean deleteReservation(@PathVariable Integer idReservation){
+        return  reservationService.deleteReservation(idReservation);
     }
 
 }
