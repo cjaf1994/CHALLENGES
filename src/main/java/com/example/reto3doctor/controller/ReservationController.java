@@ -1,5 +1,7 @@
 package com.example.reto3doctor.controller;
 
+import com.example.reto3doctor.model.Reports.ReportClient;
+import com.example.reto3doctor.model.Reports.ReportStatus;
 import com.example.reto3doctor.model.ReservationModel;
 import com.example.reto3doctor.model.SpecialtyModel;
 import com.example.reto3doctor.service.ReservationService;
@@ -45,5 +47,22 @@ public class ReservationController {
     public boolean deleteReservation(@PathVariable Integer idReservation){
         return  reservationService.deleteReservation(idReservation);
     }
+
+    @GetMapping("/report-dates/{dateOne}/{dateTwo}")
+    public List<ReservationModel> getReservationPeriod(@PathVariable("dateOne") String dateOne,
+                                                       @PathVariable("dateTwo")String dateTwo){
+        return reservationService.getReservationPeriod(dateOne, dateTwo);
+    }
+
+    @GetMapping("/report-status")
+    public ReportStatus getReportStatus(){
+        return reservationService.getReportStatus();
+    }
+
+    @GetMapping("/report-clients")
+    public List<ReportClient> getTopClient(){
+        return reservationService.getTopClient();
+    }
+
 
 }
